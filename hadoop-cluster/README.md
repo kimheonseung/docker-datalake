@@ -32,8 +32,8 @@ sudo docker run -itd \
                 --net=$NET \
                 -p 50070:50070 \
                 -p 8088:8088 \
-								-p $PORT:8042 \
-								-p 9000:9000 \
+		-p $PORT:8042 \
+		-p 9000:9000 \
                 --name $NAMENODE \
                 --hostname $NAMENODE_HOSTNAME \
                 $IMAGE_NAME &> /dev/null
@@ -48,7 +48,7 @@ do
 	echo "start $DATANODE$i container..."
 	sudo docker run -itd \
 	                --net=$NET \
-									-p $PORT:8042 \
+			-p $PORT:8042 \
 	                --name $DATANODE$i \
 	                --hostname $DATANODE_HOSTNAME$i \
 	                $IMAGE_NAME &> /dev/null
