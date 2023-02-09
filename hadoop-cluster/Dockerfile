@@ -21,7 +21,7 @@ RUN wget https://archive.apache.org/dist/hadoop/common/hadoop-3.1.4/hadoop-3.1.4
 
 # envs
 ENV HADOOP_HOME=/usr/local/hadoop 
-ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin 
+ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin
 
 RUN echo "HADOOP_HOME=/usr/local/hadoop" >> ~/.bashrc && \
     echo "PATH=\$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin" >> ~/.bashrc
@@ -52,5 +52,11 @@ RUN chmod +x $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
 
 # format namenode
 RUN /usr/local/hadoop/bin/hdfs namenode -format
+
+EXPOSE 9870/tcp
+EXPOSE 9864/tcp
+EXPOSE 9000/tcp
+EXPOSE 8088/tcp
+EXPOSE 8042/tcp
 
 CMD [ "sh", "-c", "service ssh start; bash"]
