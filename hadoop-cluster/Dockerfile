@@ -7,7 +7,7 @@ LABEL description="Hadoop Base"
 WORKDIR /root
 
 # dependencies
-RUN apt-get update && apt-get install -y openssh-server openssh-client openjdk-8-jdk wget
+RUN apt-get update && apt-get install -y openssh-server openssh-client openjdk-8-jdk wget vim
 
 # hadoop 3.1.4
 RUN wget https://archive.apache.org/dist/hadoop/common/hadoop-3.1.4/hadoop-3.1.4.tar.gz && \
@@ -22,6 +22,9 @@ RUN wget https://archive.apache.org/dist/hadoop/common/hadoop-3.1.4/hadoop-3.1.4
 # envs
 ENV HADOOP_HOME=/usr/local/hadoop 
 ENV PATH=$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin 
+
+RUN echo "HADOOP_HOME=/usr/local/hadoop" >> ~/.bashrc && \
+    echo "PATH=\$PATH:/usr/local/hadoop/bin:/usr/local/hadoop/sbin" >> ~/.bashrc
 
 # ssh without key
 RUN ssh-keygen -t rsa -f ~/.ssh/id_rsa -P '' && \
@@ -39,11 +42,11 @@ RUN mv /tmp/ssh_config ~/.ssh/config && \
     mv /tmp/core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml && \
     mv /tmp/mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml && \
     mv /tmp/yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml && \
-    mv /tmp/datanodes $HADOOP_HOME/etc/hadoop/datanodes && \
-    mv /tmp/start-hadoop.sh ~/start-hadoop.sh
+    mv /tmp/workers $HADOOP_HOME/etc/hadoop/workers && \
+    mv /tmp/start-dfs-yarn.sh ~/start-dfs-yarn.sh
 
 RUN chmod +x $HADOOP_HOME/etc/hadoop/hadoop-env.sh && \
-    chmod +x ~/start-hadoop.sh && \
+    chmod +x ~/start-dfs-yarn.sh && \
     chmod +x $HADOOP_HOME/sbin/start-dfs.sh && \
     chmod +x $HADOOP_HOME/sbin/start-yarn.sh 
 
